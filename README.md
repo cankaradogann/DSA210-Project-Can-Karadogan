@@ -1,9 +1,11 @@
 # DSA 210 — IB Dual-AVWAP (Alpha-Durable and Regime-Agnostic)
 
 > Goal in one sentence:
-> Using only 1-minute price bars (High, Low, Close) and 1-minute traded volume for SPY, we build three anchored VWAP lines from the first hour of the day (IB: 09:30–10:30 U.S. Eastern Time) and then predict the next 15 or 30 minutes (up or down) for the rest of the session (10:45–15:10 ET).
->
+
+> Using only 1-minute price bars (High, Low, Close) and 1-minute traded volume for SPY, we build three anchored VWAP lines from the first hour of the day (IB: 09:30–10:30 U.S. Eastern Time) and then predict the next 15 or 30 minutes (up or down) for the just rest of the session (10:45–15:10 ET).
+
 > Scope limits:
+
 > This project does not place trades, it does not use order-book, latency, or fees.
 
 ---
