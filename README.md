@@ -8,15 +8,15 @@
 
 ## Table of Contents
 
-1. Motivation  
-1.5. Glossary  
-2. Data Sources  
-3. Hypotheses  
-4. Methodology  
-5. Visualization Findings  
-6. Hypothesis Testing  
-7. ML Model Implementation  
-8. Limitations and Future Work
+1. [Motivation](#1-motivation)  
+1.5. [Glossary](#15-glossary)  
+2. [Data Sources](#2-data-sources)  
+3. [Hypotheses](#3-hypotheses)  
+4. [Methodology](#4-methodology)  
+5. [Visualization Findings](#5-visualization-findings)  
+6. [Hypothesis Testing](#6-hypothesis-testing)  
+7. [ML Model Implementation](#7-ml-model-implementation)  
+8. [Limitations and Future Work](#8-limitations-and-future-work)
 
 ---
 
