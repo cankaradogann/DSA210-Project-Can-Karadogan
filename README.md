@@ -109,7 +109,7 @@ We use SPY ETF's one-minute bars and volume data. This resolution is a practical
 We use only high, low, and close prices, and volume for each minute. We do not use the open for each minute because the close is a standard reference for one-minute bars and makes the label definition simple.
 
 **Date range**  
-Start with about previous forty to sixty trading days. This is small enough to build and debug quickly. It is large enough to capture different day types. Later we can extend to more months.
+Start with about previous 55 trading days starting with 8 September 2025. This is small enough to build and debug quickly. It is large enough to capture different day types. Later we can extend to more months.
 
 **Timezone**  
 All times are in U.S. Eastern Time to match the exchange session and the usual definition of the initial balance.
