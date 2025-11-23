@@ -9,7 +9,6 @@
 ## Table of Contents
 
 1. [Motivation](#1-motivation)  
-1.5. [Glossary](#15-glossary)  
 2. [Data Sources](#2-data-sources)  
 3. [Hypotheses](#3-hypotheses)  
 4. [Methodology](#4-methodology)  
@@ -17,6 +16,7 @@
 6. [Hypothesis Testing](#6-hypothesis-testing)  
 7. [ML Model Implementation](#7-ml-model-implementation)  
 8. [Limitations and Future Work](#8-limitations-and-future-work)
+9. [Glossary](#9-glossary) 
 
 ---
 
@@ -48,55 +48,6 @@ Also, how these 3 lines stand compared to each other (for example all three unde
 
 **Key design choices to keep the build easy**  
 We work only with 1-minute open-high-low-close and volume. We keep features small and clear. We validate using walk-forward splits to mimic real time learning without peeking into the future.
-
----
-
-## 1.5. Glossary
-
-**SPY**  
-SPY is an exchange-traded fund that tries to track the S&P 500 index. An exchange-traded fund is a basket of many stocks that is traded like a single stock. We use SPY because it trades a lot every day, the data is widely available, and one-minute data is usually clean. Using SPY helps reduce special events that single companies can have.
-
-**Bar or candle**  
-A bar is a summary of trading during a fixed time window. A one-minute bar includes the highest price seen in that minute, the lowest price seen in that minute, the last price of that minute, and the number of shares traded in that minute. These four numbers are called high, low, close, and volume. We use one-minute bars because they keep enough detail for short-term analysis while staying simple to work with.
-
-**Volume**  
-Volume is the count of shares that changed hands in a given minute. If volume is high, many shares traded. If volume is low, few shares traded. Volume helps weight the VWAP so that busy minutes count more than quiet minutes.
-
-**VWAP**  
-VWAP means volume-weighted average price. It is an average that gives higher weight to minutes with more volume. The purpose of VWAP is to describe a fair or typical price where most trading happened. If the price is far above VWAP, it may be considered stretched up. If the price is far below VWAP, it may be considered stretched down.
-
-**Anchored VWAP or AVWAP**  
-Anchored VWAP is a VWAP that starts at a chosen moment and moves forward in time as each new minute arrives. The anchor can be the open, a special event, or any chosen time. The anchored VWAP from time A to the current minute uses only bars from time A up to now. The purpose of AVWAP is to freeze the start time so we know exactly what price history is being summarized.
-
-**Initial balance or IB**  
-The initial balance is the first hour of the regular trading session. In U.S. Eastern Time this is 09:30–10:30. Many traders consider this first hour special because it often sets the day’s early high and low and defines the early character of the day. We use the initial balance to locate strong bursts that may shape intraday direction.
-
-**Strongest five-minute up or down move**  
-This is the five-minute window inside the initial balance that shows the largest simple move. We can measure the move in two ways. One way is close-to-close change from the first minute to the fifth minute. Another way is the high-low range within the same five minutes. We pick the window that gives the largest increase for the up move and the largest decrease for the down move. The purpose is to capture the moments with the most decisive push.
-
-**AVWAP up, AVWAP down, AVWAP open**  
-These are the three anchored VWAP lines we use. AVWAP up is anchored at the start time of the strongest up window. AVWAP down is anchored at the start time of the strongest down window. AVWAP open is anchored exactly at 09:30:00. The purpose of having three anchors is to describe three different stories of the day. The up anchor captures early aggressive buying. The down anchor captures early aggressive selling. The open anchor captures the general crowd entry point.
-
-**State**  
-State describes where the current price sits with respect to a pair of AVWAP lines. The three basic states are above both lines, between the two lines, or below both lines. The purpose of the state is to compress location information into a few categories that are easy to visualize and test.
-
-**Cross event**  
-A cross event is when the price crosses an AVWAP line or when one AVWAP line crosses another AVWAP line. A cross can mark a possible change in control between buyers and sellers or a shift in the balance point defined by anchored averages. We test whether short-term direction after a cross tends to line up with the cross direction.
-
-**Delta VWAP**  
-Delta VWAP is the absolute distance between two AVWAP lines at the same minute. A large distance means the two anchored summaries disagree strongly. A small distance means the two anchored summaries are close. This distance can indicate whether the market is stretched or balanced between two anchor stories.
-
-**Opening gap**  
-The opening gap is the percentage difference between today’s opening price and yesterday’s closing price. A positive gap means today started higher than yesterday ended. A negative gap means today started lower. The purpose of the gap is to capture overnight pressure that may set the tone for the morning.
-
-**IB width**  
-IB width is the high minus the low inside the initial balance, scaled by the opening price to form a percentage. A narrow width suggests a quiet first hour. A wide width suggests a very active first hour. This can guide whether reversion or continuation is more likely.
-
-**Cliff’s delta**  
-Cliff’s delta is an effect size that compares two distributions by the probability that a random sample from one distribution is greater than a random sample from the other. Values near zero mean little separation. Large positive or negative values mean strong separation. We use it to describe practical impact, not just statistical significance.
-
-**Walk-forward validation and purging**  
-Walk-forward means we train on earlier blocks of days and test on later blocks. This avoids learning from the future. Purging means we remove samples near the training and testing boundary that could leak information due to overlapping label windows. These steps protect against overly optimistic results.
 
 ---
 
@@ -274,3 +225,52 @@ If we apply the same rules to different symbols, thresholds may need to change. 
 We can extend the date range to include more regimes. We can add more symbols to test generality. We can explore mild extensions like time-of-day bins and gentle transforms of delta VWAP. We keep the volume-clock idea out to maintain simplicity.
 
 ---
+## 9. Glossary
+
+**SPY**  
+SPY is an exchange-traded fund that tries to track the S&P 500 index. An exchange-traded fund is a basket of many stocks that is traded like a single stock. We use SPY because it trades a lot every day, the data is widely available, and one-minute data is usually clean. Using SPY helps reduce special events that single companies can have.
+
+**Bar or candle**  
+A bar is a summary of trading during a fixed time window. A one-minute bar includes the highest price seen in that minute, the lowest price seen in that minute, the last price of that minute, and the number of shares traded in that minute. These four numbers are called high, low, close, and volume. We use one-minute bars because they keep enough detail for short-term analysis while staying simple to work with.
+
+**Volume**  
+Volume is the count of shares that changed hands in a given minute. If volume is high, many shares traded. If volume is low, few shares traded. Volume helps weight the VWAP so that busy minutes count more than quiet minutes.
+
+**VWAP**  
+VWAP means volume-weighted average price. It is an average that gives higher weight to minutes with more volume. The purpose of VWAP is to describe a fair or typical price where most trading happened. If the price is far above VWAP, it may be considered stretched up. If the price is far below VWAP, it may be considered stretched down.
+
+**Anchored VWAP or AVWAP**  
+Anchored VWAP is a VWAP that starts at a chosen moment and moves forward in time as each new minute arrives. The anchor can be the open, a special event, or any chosen time. The anchored VWAP from time A to the current minute uses only bars from time A up to now. The purpose of AVWAP is to freeze the start time so we know exactly what price history is being summarized.
+
+**Initial balance or IB**  
+The initial balance is the first hour of the regular trading session. In U.S. Eastern Time this is 09:30–10:30. Many traders consider this first hour special because it often sets the day’s early high and low and defines the early character of the day. We use the initial balance to locate strong bursts that may shape intraday direction.
+
+**Strongest five-minute up or down move**  
+This is the five-minute window inside the initial balance that shows the largest simple move. We can measure the move in two ways. One way is close-to-close change from the first minute to the fifth minute. Another way is the high-low range within the same five minutes. We pick the window that gives the largest increase for the up move and the largest decrease for the down move. The purpose is to capture the moments with the most decisive push.
+
+**AVWAP up, AVWAP down, AVWAP open**  
+These are the three anchored VWAP lines we use. AVWAP up is anchored at the start time of the strongest up window. AVWAP down is anchored at the start time of the strongest down window. AVWAP open is anchored exactly at 09:30:00. The purpose of having three anchors is to describe three different stories of the day. The up anchor captures early aggressive buying. The down anchor captures early aggressive selling. The open anchor captures the general crowd entry point.
+
+**State**  
+State describes where the current price sits with respect to a pair of AVWAP lines. The three basic states are above both lines, between the two lines, or below both lines. The purpose of the state is to compress location information into a few categories that are easy to visualize and test.
+
+**Cross event**  
+A cross event is when the price crosses an AVWAP line or when one AVWAP line crosses another AVWAP line. A cross can mark a possible change in control between buyers and sellers or a shift in the balance point defined by anchored averages. We test whether short-term direction after a cross tends to line up with the cross direction.
+
+**Delta VWAP**  
+Delta VWAP is the absolute distance between two AVWAP lines at the same minute. A large distance means the two anchored summaries disagree strongly. A small distance means the two anchored summaries are close. This distance can indicate whether the market is stretched or balanced between two anchor stories.
+
+**Opening gap**  
+The opening gap is the percentage difference between today’s opening price and yesterday’s closing price. A positive gap means today started higher than yesterday ended. A negative gap means today started lower. The purpose of the gap is to capture overnight pressure that may set the tone for the morning.
+
+**IB width**  
+IB width is the high minus the low inside the initial balance, scaled by the opening price to form a percentage. A narrow width suggests a quiet first hour. A wide width suggests a very active first hour. This can guide whether reversion or continuation is more likely.
+
+**Cliff’s delta**  
+Cliff’s delta is an effect size that compares two distributions by the probability that a random sample from one distribution is greater than a random sample from the other. Values near zero mean little separation. Large positive or negative values mean strong separation. We use it to describe practical impact, not just statistical significance.
+
+**Walk-forward validation and purging**  
+Walk-forward means we train on earlier blocks of days and test on later blocks. This avoids learning from the future. Purging means we remove samples near the training and testing boundary that could leak information due to overlapping label windows. These steps protect against overly optimistic results.
+
+---
+
