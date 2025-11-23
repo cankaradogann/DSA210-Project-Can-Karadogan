@@ -47,7 +47,7 @@ This method can be useful because VWAP and anchored VWAP are price lines that gi
 Also, how these 3 lines stand compared to each other (for example all three under the price, or price stuck between them) gives a quick picture of whether the market is in balance or out of balance. We skip the first hour and the last minutes of the day because those times are too noisy and too emotional; by working only in the calmer middle part of the day, we can test our rules in a cleaner, more realistic way.
 
 **Key design choices to keep the build easy**  
-We work only with 1-minute open-high-low-close and volume. We keep features small and clear. We validate using walk-forward splits to mimic real time learning without peeking into the future.
+We work only with 1-minute open-high-low-close and volume because with 1-minute bars for my features (strongest up/down moves, AVWAPs) are basically required to make these features mathematically honest. We keep these small and clear with it, and after that we validate using walk-forward splits to mimic real time learning without peeking into the future.
 
 ---
 
