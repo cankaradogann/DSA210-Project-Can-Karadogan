@@ -90,12 +90,6 @@ Just after a cross event, the average direction over the next 15 to 30 minutes t
 **H5: AVWAP ordering**  
 Specific orderings of AVWAP open, AVWAP up, and AVWAP down correlate with more consistent future direction. The idea is that the relative stack of anchors encodes a day story.
 
-**H6: IB width effect**  
-On narrow initial balance days, reversion is more common. On wide initial balance days, continuation is more common. The idea is that the amount of early expansion shapes what comes next.
-
-**H7: Gap alignment**  
-If the opening gap direction and the AVWAP slopes agree, the 30-minute hit-rate improves. The idea is that overnight pressure and anchored drift line up to push in the same direction.
-
 ---
 
 ## 4. Methodology
