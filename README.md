@@ -76,7 +76,6 @@ We aim for a deterministic pipeline. Given the same inputs and code version, the
 ## 3. Hypotheses
 
 **H1: Directional drift between two close, disagreeing AVWAPs**
-
 When the price is between two AVWAP lines that are very close to each other, and one AVWAP is sloping up while the other is sloping down, the market is more likely than not (more than 50% of the time) to move in the same direction over the next 15 to 30 minutes, rather than behaving like a random coin flip.
 
 **H2: Continuation when both agree**  
