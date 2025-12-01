@@ -75,8 +75,8 @@ We aim for a deterministic pipeline. Given the same inputs and code version, the
 
 ## 3. Hypotheses
 
-**H1: Reversion in between state**  
-When the price is between two AVWAP lines, the delta VWAP is small, and the two AVWAP slopes point in opposite directions, the next 15 to 30 minutes tend to revert toward the middle more often than 50 percent. The idea is that when two anchors disagree and are close, the price may be pulled to the midpoint.
+**H1: Directional drift between two close, disagreeing AVWAPs**
+When the price is between two AVWAP lines that are very close to each other, and one AVWAP is sloping up while the other is sloping down, the market is more likely than not (more than 50% of the time) to move in the same direction over the next 15 to 30 minutes, rather than behaving like a random coin flip.
 
 **H2: Continuation when both agree**  
 When the price is above both AVWAP lines or below both, and the two AVWAP slopes point in the same direction, continuation over 30 minutes is above 50 percent. The idea is that two agreeing anchors may reflect a stronger and more stable drift.
