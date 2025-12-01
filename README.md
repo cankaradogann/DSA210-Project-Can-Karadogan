@@ -76,18 +76,23 @@ We aim for a deterministic pipeline. Given the same inputs and code version, the
 ## 3. Hypotheses
 
 **H1: Directional drift between two close, disagreeing AVWAPs**
+
 When the price is between two AVWAP lines that are very close to each other, and one AVWAP is sloping up while the other is sloping down, the market is more likely than not (more than 50% of the time) to move in the same direction over the next 15 to 30 minutes, rather than behaving like a random coin flip.
 
 **H2: Continuation when both agree**  
+
 When the price is above both AVWAP lines or below both, and the two AVWAP slopes point in the same direction, continuation over 30 minutes is above 50 percent. The idea is that two agreeing anchors may reflect a stronger and more stable drift.
 
 **H3: Third anchor improves stability**  
+
 Adding the AVWAP open to the pair of up and down anchors improves the balance of hits and errors versus using only two anchors. The idea is that the open anchor captures the general starting point of the crowd and stabilizes decisions.
 
 **H4: Cross alignment**  
+
 Just after a cross event, the average direction over the next 15 to 30 minutes tends to match the cross direction, except for very short whipsaws. The idea is that crossing a fair value line can mark a shift in control.
 
 **H5: AVWAP ordering**  
+
 Specific orderings of AVWAP open, AVWAP up, and AVWAP down correlate with more consistent future direction. The idea is that the relative stack of anchors encodes a day story.
 
 ---
