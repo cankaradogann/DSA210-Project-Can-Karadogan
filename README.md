@@ -132,7 +132,7 @@ For each minute t between 10:45 and 15:10, we set Dir-15 to 1 if the close at t 
 
 ---
 
-## 7. ML Model Implementation
+## 5. ML Model Implementation
 
 We keep the model simple and interpretable. The output is only up or down. Every rule should be readable as plain sentences that a non-technical reader can follow.
 
@@ -161,7 +161,7 @@ We cap the tree depth at three. This limit forces clarity and reduces the risk o
 
 ---
 
-## 8. Limitations and Future Work
+## 6. Limitations and Future Work
 
 **Noisy one-minute data**  
 One-minute bars sometimes include errors or zero volume. We remove these cases, but small glitches can remain. This noise can create false crosses or short-lived spikes.
@@ -179,7 +179,7 @@ If we apply the same rules to different symbols, thresholds may need to change. 
 We can extend the date range to include more regimes. We can add more symbols to test generality. We can explore mild extensions like time-of-day bins and gentle transforms of delta VWAP. We keep the volume-clock idea out to maintain simplicity.
 
 ---
-## 9. Glossary
+## 7. Glossary
 
 **SPY**  
 SPY is an exchange-traded fund that tries to track the S&P 500 index. An exchange-traded fund is a basket of many stocks that is traded like a single stock. We use SPY because it trades a lot every day, the data is widely available, and one-minute data is usually clean. Using SPY helps reduce special events that single companies can have.
