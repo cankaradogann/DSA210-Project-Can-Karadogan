@@ -14,7 +14,9 @@
 4. [Methodology](#4-methodology)     
 5. [ML Model Implementation](#5-ml-model-implementation)  
 6. [Limitations and Future Work](#6-limitations-and-future-work)
-7. [Glossary](#7-glossary) 
+7. [Results](#7-results)
+8. [Glossary](#8-glossary)
+   
 
 ---
 
@@ -179,7 +181,44 @@ If we apply the same rules to different symbols, thresholds may need to change. 
 We can extend the date range to include more regimes. We can add more symbols to test generality. We can explore mild extensions like time-of-day bins and gentle transforms of delta VWAP. We keep the volume-clock idea out to maintain simplicity.
 
 ---
-## 7. Glossary
+
+## Results
+
+This project reports results using a JSON evaluation flow.
+
+- Leg 1 (prediction.ipynb): creates event masks and rule predictions as new columns in the dataset.
+- Leg 2 (eval_metrics.ipynb): computes metrics for each hypothesis and exports them as JSON files.
+- Leg 3 (hypothesis_tests.ipynb): reads only the JSON metrics, visualizes them, and writes a clear decision summary.
+
+### What files to look at
+
+The main outputs are the per-hypothesis JSON metric files:
+
+- H1_metrics.json
+- H2_metrics.json
+- H3_metrics.json
+- H4_metrics.json
+- H5_metrics.json
+
+### What is inside each JSON
+
+Each JSON contains (depending on the hypothesis):
+- sample size (N) and coverage (how many rows are evaluated)
+- core performance metrics (hit-rate, and optionally precision/recall/F1)
+- a one-sided significance test for hit-rate vs 0.5 (p-value)
+- return-based summaries when applicable (mean/median signed return)
+- bootstrap-by-day confidence intervals for key metrics (when available)
+
+### Decision rule used in the report
+
+A hypothesis is marked as:
+- Supported: metrics are meaningfully above baseline and stable across reported slices
+- Limited support: some positive signals but inconsistent or weak
+- Not supported: no reliable improvement over baseline
+
+---
+
+## 8. Glossary
 
 **SPY**  
 SPY is an exchange-traded fund that tries to track the S&P 500 index. An exchange-traded fund is a basket of many stocks that is traded like a single stock. We use SPY because it trades a lot every day, the data is widely available, and one-minute data is usually clean. Using SPY helps reduce special events that single companies can have.
