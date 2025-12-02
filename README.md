@@ -11,12 +11,10 @@
 1. [Motivation](#1-motivation)  
 2. [Data Sources](#2-data-sources)  
 3. [Hypotheses](#3-hypotheses)  
-4. [Methodology](#4-methodology)  
-5. [Visualization Findings](#5-visualization-findings)  
-6. [Hypothesis Testing](#6-hypothesis-testing)  
-7. [ML Model Implementation](#7-ml-model-implementation)  
-8. [Limitations and Future Work](#8-limitations-and-future-work)
-9. [Glossary](#9-glossary) 
+4. [Methodology](#4-methodology)     
+5. [ML Model Implementation](#5-ml-model-implementation)  
+6. [Limitations and Future Work](#6-limitations-and-future-work)
+7. [Glossary](#7-glossary) 
 
 ---
 
@@ -132,46 +130,6 @@ We compute short volatility as rolling high-low ranges over 5 and 15 minutes. We
 **Step 5: Create leakage-free labels**  
 For each minute t between 10:45 and 15:10, we set Dir-15 to 1 if the close at t plus 15 minutes is greater than the close at t, otherwise 0. We set Dir-30 in the same way but with 30 minutes. All features at time t must be computed using only information at or before time t. We avoid using any data from the future.
 
-**Step 6: Validate with walk-forward and purging**  
-We split the data into blocks by week or by sets of days. We train on earlier blocks and test on later blocks. We purge samples near the boundaries for at least the length of the longest label horizon to avoid hidden leakage. We report accuracy, precision, recall, F1, and Cliff’s delta on the test sets. We compute bootstrap by day confidence intervals for hit-rate and F1 to express uncertainty.
-
----
-
-## 5. Visualization Findings
-
-We plot the hit-rate for each state and for ranges of delta VWAP. This shows where reversion or continuation patterns are strongest.
-
-**Cross event path studies**  
-We align many days at the time of a cross event and average the price path before and after the cross. This shows the typical move around crosses.
-
-**AVWAP ordering panels**  
-We group minutes by the ordering of AVWAP open, AVWAP up, and AVWAP down. We then show hit-rates within each group. This tests whether the stack order relates to direction.
-
-**IB width slices**  
-We split days into narrow, medium, and wide initial balance groups and compare hit-rates. This tests whether early expansion predicts later behavior.
-
----
-
-## 6. Hypothesis Testing
-
-**Filter**  
-For each hypothesis, we create a filter that selects the relevant minutes. For example, for reversion in the between state, we select minutes where the price is between two AVWAP lines, the delta VWAP is small by a fixed threshold, and the slopes point in opposite directions.
-
-**Test**  
-We compute the hit-rate on the filtered set. We run a one-sided test to check if the hit-rate is greater than 50 percent. We report the p value.
-
-**Effect size**  
-We compute Cliff’s delta for the distribution of signed returns over the horizon. This shows whether the effect is not only statistically significant but also practically meaningful.
-
-**Classifiers**  
-We also report accuracy, precision, recall, and F1 of simple rule-based or tree-based labelers restricted to the same filtered subset. This cross-checks that the effect carries into a model.
-
-**Sensitivity checks**  
-We repeat the analysis in bins of IB width, bins of delta VWAP, bins of opening gap sign, and different AVWAP orderings. The purpose is to check if the effect is robust across day types.
-
-**Decision**  
-We mark the hypothesis as accepted, rejected, or having limited support based on hit-rate, p value, effect size, and consistency across sensitivity checks.
-
 ---
 
 ## 7. ML Model Implementation
@@ -200,9 +158,6 @@ In trend-like conditions, we prefer continuation rules for the 30-minute horizon
 
 *Model size*  
 We cap the tree depth at three. This limit forces clarity and reduces the risk of fitting noise.
-
-*Evaluation*  
-We use walk-forward with purging. We report accuracy, precision, recall, and F1 on test blocks. We also report Cliff’s delta so the reader can see variability.
 
 ---
 
@@ -264,9 +219,6 @@ The opening gap is the percentage difference between today’s opening price and
 
 **IB width**  
 IB width is the high minus the low inside the initial balance, scaled by the opening price to form a percentage. A narrow width suggests a quiet first hour. A wide width suggests a very active first hour. This can guide whether reversion or continuation is more likely.
-
-**Cliff’s delta**  
-Cliff’s delta is an effect size that compares two distributions by the probability that a random sample from one distribution is greater than a random sample from the other. Values near zero mean little separation. Large positive or negative values mean strong separation. We use it to describe practical impact, not just statistical significance.
 
 **Walk-forward validation and purging**  
 Walk-forward means we train on earlier blocks of days and test on later blocks. This avoids learning from the future. Purging means we remove samples near the training and testing boundary that could leak information due to overlapping label windows. These steps protect against overly optimistic results.
